@@ -43,7 +43,7 @@ jobs:
       - name: Copy .exe into workspace
         run: |
           mkdir -p upload
-          copy ..\dist\win-unpacked\*.exe upload-artifact\
+          copy ..\dist\win-unpacked\* upload-artifact\
 
       - name: Locate upload-artifact
         run: dir upload-artifact
