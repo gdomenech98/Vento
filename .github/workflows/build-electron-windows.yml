@@ -38,15 +38,13 @@ jobs:
         run: yarn app-package
 
 
-      - name: Locate .. files
-        run: dir ..
 
-      - name: Locate . files
-        run: dir
+      - name: Locate ..\dist files
+        run: dir ..\dist
 
       - name: Upload .exe
         uses: actions/upload-artifact@v4
         with:
           name: electron-windows-exe
           path: |
-            dist/*.exe
+            ../dist/*.exe
