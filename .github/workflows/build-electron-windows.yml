@@ -38,7 +38,7 @@ jobs:
         run: yarn app-package
 
       - name: Locate .exe files
-        run: dir dist
+        run: dir ./dist
 
       - name: Locate .. files
         run: dir ..
