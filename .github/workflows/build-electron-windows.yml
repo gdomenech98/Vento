@@ -37,14 +37,19 @@ jobs:
       - name: Build Electron .exe
         run: yarn app-package
 
-
-
       - name: Locate ..\dist files
         run: dir ..\dist
+
+      - name: Copy .exe into workspace
+        run: |
+          mkdir -p upload
+          copy ..\dist\win-unpacked\*.exe upload-artifact\
+
+      - name: Locate upload-artifact
+        run: dir upload-artifact
 
       - name: Upload .exe
         uses: actions/upload-artifact@v4
         with:
           name: electron-windows-exe
-          path: |
-            ../dist/*.exe
+          path: upload-artifact/*.exe
