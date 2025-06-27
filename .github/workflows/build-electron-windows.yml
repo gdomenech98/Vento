@@ -1,0 +1,39 @@
+name: Build Electron App for Windows
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.17.0'
+          cache: 'yarn'
+
+      - name: Install Yarn v3
+        run: npm i -g yarn@3.5.1
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Download platform binaries
+        run: yarn download-binaries
+
+      - name: Build Electron .exe
+        run: yarn app-package
+
+      - name: Upload .exe
+        uses: actions/upload-artifact@v4
+        with:
+          name: electron-windows-exe
+          path: |
+            dist/*.exe
