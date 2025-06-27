@@ -17,8 +17,8 @@ jobs:
           node-version: '20.17.0'
           cache: 'yarn'
 
-      - name: Install Yarn v3
-        run: npm i -g yarn@3.5.1
+      - name: Install Yarn
+        run: npm i -g yarn
 
       - name: Install dependencies
         run: yarn install --immutable
