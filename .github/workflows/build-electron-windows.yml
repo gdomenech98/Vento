@@ -23,9 +23,6 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
 
-      - name: Download platform binaries
-        run: yarn download-binaries
-
       - name: Build Electron .exe
         run: yarn app-package
 
