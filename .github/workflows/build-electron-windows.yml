@@ -2,7 +2,18 @@ name: Build Electron App for Windows
 
 on:
   workflow_dispatch:
-
+    inputs:
+      tag_name:
+        description: 'Release tag (e.g., v1.0.0)'
+        required: true
+      release_name:
+        description: 'Release title (e.g., Vento v1.0.0)'
+        required: true
+      prerelease:
+        description: 'Is this a prerelease?'
+        required: false
+        default: false
+        type: boolean
 jobs:
   build-windows:
     runs-on: windows-latest
@@ -25,6 +36,15 @@ jobs:
 
       - name: Build Electron .exe
         run: yarn app-package
+
+      - name: Locate .exe files
+        run: dir dist
+
+      - name: Locate .. files
+        run: dir ..
+
+      - name: Locate . files
+        run: dir
 
       - name: Upload .exe
         uses: actions/upload-artifact@v4
