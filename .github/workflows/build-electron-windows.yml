@@ -37,7 +37,7 @@ jobs:
           key: ${{ runner.os }}-electron-builder-${{ hashFiles('yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-electron-builder-
-            
+
       - name: Install Yarn
         run: npm i -g yarn
 
@@ -49,17 +49,17 @@ jobs:
           yarn app-package 
           dir ..\dist\win-unpacked
 
-      - name: Copy .exe into GitHub Actions working directory
+      - name: Copy electron build into GitHub Actions working directory
         run: |
           New-Item -ItemType Directory -Force -Path upload-artifact
-          Copy-Item '..\dist\win-unpacked\*.exe' -Destination 'upload-artifact'
+          Copy-Item '..\dist\win-unpacked\*' -Destination 'upload-artifact'
           dir upload-artifact
 
-      - name: Upload Vento.exe as artifact
+      - name: Upload Vento as artifact
         uses: actions/upload-artifact@v4
         with:
           name: Vento
-          path: upload-artifact/Vento.exe
+          path: upload-artifact/*
       
       - name: Upload to GitHub Release
         if: ${{ github.event_name == 'workflow_dispatch' }}
@@ -68,6 +68,6 @@ jobs:
           tag_name: ${{ github.event.inputs.tag_name }}
           name: ${{ github.event.inputs.release_name }}
           prerelease: ${{ github.event.inputs.prerelease }}
-          files: upload-artifact/Vento.exe
+          files: upload-artifact/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
