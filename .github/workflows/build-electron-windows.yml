@@ -1,4 +1,4 @@
-name: Build Electron App for Windows
+name: Build Vento for Windows
 
 on:
   workflow_dispatch:
@@ -39,13 +39,13 @@ jobs:
           yarn app-package 
           dir ..\dist\win-unpacked
 
-      - name: Create upload directory
+      - name: Copy .exe into GitHub Actions working directory
         run: |
           New-Item -ItemType Directory -Force -Path upload-artifact
           Copy-Item '..\dist\win-unpacked\*.exe' -Destination 'upload-artifact'
           dir upload-artifact
 
-      - name: Upload .exe
+      - name: Upload Vento.exe as artifact
         uses: actions/upload-artifact@v4
         with:
           name: Vento
