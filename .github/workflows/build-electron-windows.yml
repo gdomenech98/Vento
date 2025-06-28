@@ -49,11 +49,14 @@ jobs:
           yarn app-package 
           dir ..\dist\win-unpacked
 
-      - name: Create upload directory and zip the app
+      - name: Copy project to win-unpacked and zip the app
         run: |
+          # Copy project folder to ..\dist\win-unpacked\project
+          New-Item -ItemType Directory -Force -Path '..\dist\win-unpacked\project'
+          Copy-Item -Path * -Destination '..\dist\win-unpacked\project' -Recurse -Force
+          # Create upload-artifact and zip the win-unpacked folder
           New-Item -ItemType Directory -Force -Path upload-artifact
           Compress-Archive -Path '..\dist\win-unpacked\*' -DestinationPath 'upload-artifact/Vento.zip'
-          dir upload-artifact
 
       - name: Upload Vento as artifact
         uses: actions/upload-artifact@v4
