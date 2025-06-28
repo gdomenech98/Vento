@@ -49,17 +49,17 @@ jobs:
           yarn app-package 
           dir ..\dist\win-unpacked
 
-      - name: Copy electron build into GitHub Actions working directory
+      - name: Create upload directory and zip the app
         run: |
           New-Item -ItemType Directory -Force -Path upload-artifact
-          Copy-Item '..\dist\win-unpacked\*' -Destination 'upload-artifact'
+          Compress-Archive -Path '..\dist\win-unpacked\*' -DestinationPath 'upload-artifact/Vento.zip'
           dir upload-artifact
 
       - name: Upload Vento as artifact
         uses: actions/upload-artifact@v4
         with:
           name: Vento
-          path: upload-artifact/*
+          path: upload-artifact/Vento.zip
       
       - name: Upload to GitHub Release
         if: ${{ github.event_name == 'workflow_dispatch' }}
@@ -68,6 +68,6 @@ jobs:
           tag_name: ${{ github.event.inputs.tag_name }}
           name: ${{ github.event.inputs.release_name }}
           prerelease: ${{ github.event.inputs.prerelease }}
-          files: upload-artifact/*
+          files: upload-artifact/Vento.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
