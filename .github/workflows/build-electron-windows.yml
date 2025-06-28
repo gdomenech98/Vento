@@ -28,6 +28,16 @@ jobs:
           node-version: '22'
           cache: 'yarn'
 
+      - name: Cache Electron Builder
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/electron
+            ~/.cache/electron-builder
+          key: ${{ runner.os }}-electron-builder-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-electron-builder-
+            
       - name: Install Yarn
         run: npm i -g yarn
 
