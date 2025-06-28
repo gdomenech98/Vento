@@ -27,7 +27,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20.17.0'
+          node-version: '22'
           cache: 'yarn'
 
       - name: Install Yarn
@@ -37,22 +37,18 @@ jobs:
         run: yarn install --immutable
 
       - name: Build Electron .exe
-        run: yarn app-package
-
-      - name: Locate ..\dist files
-        run: dir ..\dist
+        run:  |
+          yarn app-package 
+          dir ..\dist\win-unpacked
 
       - name: Create upload directory
-        run: New-Item -ItemType Directory -Force -Path upload-artifact
-      
-      - name: Copy .exe into workspace
-        run: Copy-Item '..\dist\win-unpacked\*.exe' -Destination 'upload-artifact'
-
-      - name: Locate upload-artifact
-        run: dir upload-artifact
+        run: |
+          New-Item -ItemType Directory -Force -Path upload-artifact
+          Copy-Item '..\dist\win-unpacked\*.exe' -Destination 'upload-artifact'
+          dir upload-artifact
 
       - name: Upload .exe
         uses: actions/upload-artifact@v4
         with:
-          name: electron-windows-exe
-          path: upload-artifact/*.exe
+          name: Vento
+          path: upload-artifact/Vento.exe
